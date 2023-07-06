@@ -4,13 +4,13 @@ from food import Food
 from scoreboard import ScoreBoard
 import time
 
-play_again = "y"
+continue_game = True
+screen = Screen()
 
-while play_again == "y":
+while continue_game:
 
-    screen = Screen()
     screen.clear()
-    screen.setup(width=600, height=600)
+    screen.setup(width=800, height=500)
     screen.bgcolor("black")
     screen.title("Snake Game")
     screen.tracer(0)
@@ -38,7 +38,7 @@ while play_again == "y":
             scoreboard.increase_score()
 
         # Detect collision with wall
-        if snake.head.xcor() > 290 or snake.head.xcor() < -300 or snake.head.ycor() > 300 or snake.head.ycor() < -290:
+        if snake.head.xcor() > 390 or snake.head.xcor() < -400 or snake.head.ycor() > 250 or snake.head.ycor() < -240:
             game_on = False
             scoreboard.game_over()
 
@@ -49,12 +49,17 @@ while play_again == "y":
                 game_on = False
 
     valid_ans = False
-    play_again = screen.textinput(title="Play again?", prompt="Do you want to play again? Press y for yes and n for no ")
+    play_again = screen.textinput(title="Game Over",
+                                  prompt="Do you want to play again? Press y for yes and n for no ")
+
     while not valid_ans:
-        if play_again.lower() == "y" or play_again.lower() == "n":
+        if play_again.lower() == "y":
             valid_ans = True
+        elif play_again.lower() == "n":
+            valid_ans = True
+            continue_game = False
         else:
-            play_again = screen.textinput(title="Play again",
+            play_again = screen.textinput(title="Game Over",
                                           prompt="Enter a valid answer. Do you want to play again? Press y for yes and n for no ")
 
 screen.exitonclick()
