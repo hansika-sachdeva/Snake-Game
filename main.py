@@ -7,6 +7,8 @@ import time
 continue_game = True
 screen = Screen()
 
+scoreboard = ScoreBoard()
+
 while continue_game:
 
     screen.clear()
@@ -17,7 +19,6 @@ while continue_game:
 
     snake = Snake()
     food = Food()
-    scoreboard = ScoreBoard()
 
     screen.listen()
     screen.onkey(snake.up, "Up")
@@ -28,11 +29,12 @@ while continue_game:
     game_on = True
     while game_on:
         screen.update()
-        time.sleep(0.1)
+        time.sleep(scoreboard.snake_speed)
+        scoreboard.update_scoreboard()
         snake.move()
 
         # Detect collision with food
-        if snake.head.distance(food) < 15:
+        if snake.head.distance(food) < 10:
             food.set_random_pos()
             snake.extend()
             scoreboard.increase_score()
@@ -43,7 +45,7 @@ while continue_game:
             scoreboard.game_over()
 
         # Detect collision with tail
-        for segment in snake.segments[1:]:
+        for segment in snake.segments[2:]:
             if snake.head.distance(segment) < 10:
                 scoreboard.game_over()
                 game_on = False
